@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import styled from "styled-components";
 
 const TOKEN = "fbaae48b81b194957dd9a6e1eb7bedef2452a7d1";
@@ -18,6 +19,7 @@ export default function HomePage() {
 
   return (
     <>
+      <Meta />
       <AqiCard data={data} />
       <AirComposition data={data} />
       <Attribution data={data} />
@@ -176,6 +178,29 @@ function getAqiDetails(aqiValue) {
       gradients: ["#874da2", "#c43a30"]
     };
   }
+}
+
+function Meta() {
+  return (
+    <div>
+      <Head>
+        <title>AirHealth</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+          key="viewport"
+        />
+        <link rel="manifest" href="/manifest.json" />
+        <link
+          href="/icons/icon-72x72.png"
+          rel="icon"
+          type="image/png"
+          sizes="72x72"
+        />
+        <link rel="apple-touch-icon" href="/icons/icon-512x512.png"></link>
+      </Head>
+    </div>
+  );
 }
 
 const CityName = styled.div`

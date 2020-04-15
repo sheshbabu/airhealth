@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const TOKEN = process.env.WAQI_API_TOKEN;
+const TOKEN = "fbaae48b81b194957dd9a6e1eb7bedef2452a7d1";
 
 export default function HomePage() {
   const [data, setData] = React.useState(null);

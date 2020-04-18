@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background: #f6f6f6;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
   }
 
   ::-webkit-scrollbar {

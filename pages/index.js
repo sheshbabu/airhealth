@@ -197,6 +197,10 @@ function Meta() {
           type="image/png"
           sizes="72x72"
         />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        ></meta>
         <link rel="apple-touch-icon" href="/icons/icon-512x512.png"></link>
       </Head>
     </div>

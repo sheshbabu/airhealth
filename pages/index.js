@@ -8,9 +8,18 @@ const TOKEN = "fbaae48b81b194957dd9a6e1eb7bedef2452a7d1";
 
 export default function HomePage() {
   const [data, setData] = React.useState(null);
-  const [location, setLocation] = React.useState("here");
+  const [location, setLocation] = React.useState(null);
 
   React.useEffect(() => {
+    const location = localStorage.getItem("location") || "here";
+    setLocation(location);
+  }, []);
+
+  React.useEffect(() => {
+    if (location === null) {
+      return;
+    }
+
     fetch(`https://api.waqi.info/feed/${location}/?token=${TOKEN}`)
       .then(res => res.json())
       .then(res => setData(res.data));
@@ -19,10 +28,14 @@ export default function HomePage() {
   function handleGetLocationClick() {
     navigator.geolocation.getCurrentPosition(
       p => {
-        setLocation(`geo:${p.coords.latitude};${p.coords.longitude}`);
+        const location = `geo:${p.coords.latitude};${p.coords.longitude}`;
+        setLocation(location);
+        localStorage.setItem("location", location);
       },
       () => {
-        setLocation("here");
+        const location = "here";
+        setLocation(location);
+        localStorage.setItem("location", location);
       }
     );
   }
@@ -62,15 +75,10 @@ function AqiCard({ data }) {
 }
 
 function StationSelector({ location, onGetLocationClick }) {
-  const link =
-    location === "here"
-      ? "Use data from nearest station"
-      : "Using data from nearest station";
-
   return (
     <PaddedCard onClick={onGetLocationClick}>
       <SectionTitleButton>
-        <span>{link}</span>
+        Use data from nearest station
         <FontAwesomeIcon icon={faMapMarkerAlt} color="#d4fc79" />
       </SectionTitleButton>
     </PaddedCard>

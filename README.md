@@ -1,6 +1,6 @@
 # AirHealth
 
-<img width="300px" src="https://raw.githubusercontent.com/sheshbabu/airhealth/master/docs/screenshot.png" />
+<img width="300px" src="https://raw.githubusercontent.com/sheshbabu/airhealth/master/docs/screenshot.jpeg" />
 
 ## Local Development
 

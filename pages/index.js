@@ -1,6 +1,8 @@
 import React from "react";
 import Head from "next/head";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const TOKEN = "fbaae48b81b194957dd9a6e1eb7bedef2452a7d1";
 
@@ -33,7 +35,7 @@ export default function HomePage() {
     <>
       <Meta />
       <AqiCard data={data} />
-      <LocationSelector
+      <StationSelector
         location={location}
         onGetLocationClick={handleGetLocationClick}
       />
@@ -56,6 +58,22 @@ function AqiCard({ data }) {
       </AqiMetricContainer>
       <AqiHealthImplications>{implications}</AqiHealthImplications>
     </Card>
+  );
+}
+
+function StationSelector({ location, onGetLocationClick }) {
+  const link =
+    location === "here"
+      ? "Use data from nearest station"
+      : "Using data from nearest station";
+
+  return (
+    <PaddedCard onClick={onGetLocationClick}>
+      <SectionTitleButton>
+        <span>{link}</span>
+        <FontAwesomeIcon icon={faMapMarkerAlt} color="#d4fc79" />
+      </SectionTitleButton>
+    </PaddedCard>
   );
 }
 
@@ -136,19 +154,6 @@ function Attribution({ data }) {
     <PaddedCard>
       <SectionTitle>Attribution</SectionTitle>
       {list}
-    </PaddedCard>
-  );
-}
-
-function LocationSelector({ location, onGetLocationClick }) {
-  const link =
-    location === "here"
-      ? "Use data from nearest station"
-      : "Using data from nearest station";
-
-  return (
-    <PaddedCard>
-      <SectionTitle onClick={onGetLocationClick}>{link}</SectionTitle>
     </PaddedCard>
   );
 }
@@ -267,9 +272,16 @@ const AttributionLink = styled.a`
   word-break: keep-all;
 `;
 
-const SectionTitle = styled.a`
+const SectionTitle = styled.div`
   font-family: Lato-Semibold, sans-serif;
   line-height: 24px;
+`;
+
+const SectionTitleButton = styled(SectionTitle)`
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Card = styled.div`

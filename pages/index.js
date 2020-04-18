@@ -6,12 +6,24 @@ const TOKEN = "fbaae48b81b194957dd9a6e1eb7bedef2452a7d1";
 
 export default function HomePage() {
   const [data, setData] = React.useState(null);
+  const [location, setLocation] = React.useState("here");
 
   React.useEffect(() => {
-    fetch(`https://api.waqi.info/feed/here/?token=${TOKEN}`)
+    fetch(`https://api.waqi.info/feed/${location}/?token=${TOKEN}`)
       .then(res => res.json())
       .then(res => setData(res.data));
-  }, []);
+  }, [location]);
+
+  function handleGetLocationClick() {
+    navigator.geolocation.getCurrentPosition(
+      p => {
+        setLocation(`geo:${p.coords.latitude};${p.coords.longitude}`);
+      },
+      () => {
+        setLocation("here");
+      }
+    );
+  }
 
   if (data === null) {
     return null;
@@ -21,6 +33,10 @@ export default function HomePage() {
     <>
       <Meta />
       <AqiCard data={data} />
+      <LocationSelector
+        location={location}
+        onGetLocationClick={handleGetLocationClick}
+      />
       <AirComposition data={data} />
       <Attribution data={data} />
     </>
@@ -120,6 +136,19 @@ function Attribution({ data }) {
     <PaddedCard>
       <SectionTitle>Attribution</SectionTitle>
       {list}
+    </PaddedCard>
+  );
+}
+
+function LocationSelector({ location, onGetLocationClick }) {
+  const link =
+    location === "here"
+      ? "Use data from nearest station"
+      : "Using data from nearest station";
+
+  return (
+    <PaddedCard>
+      <SectionTitle onClick={onGetLocationClick}>{link}</SectionTitle>
     </PaddedCard>
   );
 }
